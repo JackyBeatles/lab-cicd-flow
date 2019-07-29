@@ -1,0 +1,4 @@
+Jenkinsfile
+*.md
+*.properties
+Dockerfile
