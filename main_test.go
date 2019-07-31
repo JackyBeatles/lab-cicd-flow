@@ -83,6 +83,14 @@ func Test_getEnv(t *testing.T) {
 			},
 			want: "/bin/zsh",
 		},
+		{
+			name: "HTTP_PORT key",
+			args: args{
+				key: "HTTP_PORT",
+				fallback: "test",
+			},
+			want: "9000",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
