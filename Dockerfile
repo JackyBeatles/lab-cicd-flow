@@ -6,7 +6,7 @@ COPY . .
 
 RUN go build -o http-serv
 
-FROM alpine
+FROM alpine:3.10
 
 WORKDIR /app
 
