@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	logPath := "req.log"
-	httpPort := 9000
-
+	httpPort := getEnv("HTTP_PORT", "9000")
 	// openLogFile(logPath)
 
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
@@ -19,7 +19,7 @@ func main() {
 	fmt.Printf("listening on %v\n", httpPort)
 	fmt.Printf("Logging to %v\n", logPath)
 
-	err := http.ListenAndServe(fmt.Sprintf(":%d", httpPort), logRequest(http.DefaultServeMux))
+	err := http.ListenAndServe(fmt.Sprintf(":%s", httpPort), logRequest(http.DefaultServeMux))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,6 +34,13 @@ func logRequest(handler http.Handler) http.Handler {
 		log.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
 		handler.ServeHTTP(w, r)
 	})
+}
+
+func getEnv(key, fallback string) string {
+	if value, isExist := os.LookupEnv(key); isExist {
+		return value
+	}
+	return fallback
 }
 
 // func openLogFile(logfile string) {
